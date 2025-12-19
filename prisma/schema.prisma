@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String?
+  role          String    @default("VIEWER")
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  transactions  Transaction[]
+  budgets       Budget[]
+  auditLogs     AuditLog[]
+}
+
+model Transaction {
+  id          String          @id @default(uuid())
+  amount      Float
+  type        String // SQLite doesn't support enums
+  category    String
+  description String
+  date        DateTime
+  essential   Boolean         @default(false)
+  metadata    String?
+  
+  userId      String
+  user        User            @relation(fields: [userId], references: [id])
+
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model Budget {
+  id          String   @id @default(uuid())
+  category    String
+  limit       Float
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  // Could add period/month tracking here, simplistic for now
+  period      String   @default("monthly") 
+  
+  updatedAt   DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  entity    String   // e.g., "Transaction", "Budget"
+  details   String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  timestamp DateTime @default(now())
+}
