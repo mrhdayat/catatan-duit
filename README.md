@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CATATAN DUIT 💸 (Markas Keuangan Lo)
 
-## Getting Started
+Woi, selamat datang di **Catatan Duit**! Aplikasi pencatat keuangan paling **brutal**, paling **jujur**, dan paling **gak pake basa-basi**. Buat lo yang dompetnya sering bocor alus tapi males pake aplikasi ribet, gass pake ini!
 
-First, run the development server:
+![Banner](https://img.shields.io/badge/STYLE-BRUTALISM-black?style=for-the-badge) ![Tech](https://img.shields.io/badge/POWERED_BY-NEXT.JS-white?style=for-the-badge&logo=next.js&logoColor=black)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔥 FITUR-FITUR SAKTI
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. **DASHBOARD SKELETON & NORMAL**
+*   **Normal Mode**: Liat semua dosa (pengeluaran) dan pahala (pemasukan) lo secara transparan.
+*   **Skeleton Mode (Survival)**: Klik tombol "MISKIN MODE" buat nyaring cuma pengeluaran PENTING/ESSENTIAL aja. Berguna banget pas tanggal tua biar gak stress liat jajan boba.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. **ANALISA SKELETON (GAUGE METER)**
+Indikator canggih yang bakal nge-judge lo secara live:
+*   **Hijau**: "AMAN TERKENDALI" (Lo pinter ngatur duit).
+*   **Kuning**: "MULAI WASPADA" (Hati-hati, lampu kuning).
+*   **Merah**: "JEBOL BOS!!!" (Tobat woi!).
+*   Kalau **Mode Survival** nyala, dia bakal ngitung seberapa efisien hidup lo (Rasio Essensial).
 
-## Learn More
+### 3. **LOCK BUDGET**
+Set limit bulanan lo biar gak kalap. Kalau lewat, indikator bakal teriak merah. Tapi kita kasih fitur "0" buat yang ngerasa sultan (unlimited).
 
-To learn more about Next.js, take a look at the following resources:
+### 4. **STATISTIK**
+Grafik batang simpel buat ngeliat duit lo lari ke mana aja. Kategori **ESSENTIAL** bakal nyala ijo neon biar lo tau mana prioritas.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 5. **AUDIT LOG**
+Setiap lo nambah, ngedit, atau ngehapus transaksi, jejak digital lo kecatet. Gak ada istilah "Lupa ingatan".
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🛠 TEKNOLOGI YANG DIPAKE (BUAT ANAK IT)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Aplikasi ini dibangun pake stack yang gak kaleng-kaleng:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*   **Framework**: [Next.js 14](https://nextjs.org/) (App Router, Server Actions).
+*   **Database**: [PostgreSQL](https://www.postgresql.org/) (Hosted di Neon/Vercel).
+*   **ORM**: [Prisma](https://www.prisma.io/) (Type-safe banget).
+*   **Styling**: [Tailwind CSS](https://tailwindcss.com/) (Penuh dengan `border-2`, `uppercase`, `font-mono`).
+*   **Auth**: [NextAuth.js](https://next-auth.js.org/) (Aman sentosa).
+*   **Chart**: [Recharts](https://recharts.org/) (Buat grafik batang itu loh).
+*   **Animations**: [Framer Motion](https://www.framer.com/motion/) (Biar transisinya mulus kayak jalan tol).
+
+---
+
+## 🚀 CARA INSTALL LOKAL (BUAT YG MAU OPREK)
+
+1.  **Clone Repo Ini**
+    ```bash
+    git clone https://github.com/mrhdayat/catatan-duit.git
+    cd catatan-duit
+    ```
+
+2.  **Install Dependencies**
+    ```bash
+    npm install
+    # atau
+    pnpm install
+    ```
+
+3.  **Setup Database (Lokal)**
+    Secara default repo ini disetting buat **Postgres**. Kalau mau jalanin lokal tanpa internet (SQLite), ubah `schema.prisma`:
+    ```prisma
+    provider = "sqlite"
+    url      = "file:./dev.db"
+    ```
+    Lalu jalanin:
+    ```bash
+    npx prisma generate
+    npx prisma db push
+    ```
+
+4.  **Jalanin Server**
+    ```bash
+    npm run dev
+    ```
+    Buka `http://localhost:3000` di browser.
+
+---
+
+## 🌍 DEPLOYMENT (VERCEL)
+
+Gampang banget deploy ini:
+
+1.  Push ke GitHub.
+2.  Import project di Vercel.
+3.  Vercel bakal otomatis nawarin bikin Database Postgres (Pilih **Neon**).
+4.  Isi Environment variable `NEXTAUTH_SECRET` (Wajib, isi asal aja yg penting panjang).
+5.  **DONE!** Aplikasi lo online.
+
+---
+
+## ⚠️ DISCLAIMER
+Aplikasi ini menggunakan bahasa santai/gaul. Kalau lo tersinggung dibilang "MISKIN MODE", mohon maaf, ini fitur biar kita sadar diri 🤣.
+
+---
+
+**Dibuat dengan 💻 & ☕ oleh [DracoSeven](https://github.com/mrhdayat)**
