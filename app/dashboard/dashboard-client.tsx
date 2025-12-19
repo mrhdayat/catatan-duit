@@ -359,7 +359,7 @@ export default function DashboardClient({ transactions, userId, budget }: { tran
               className="w-full bg-black border-2 border-carbon-600 p-4 text-xl font-mono text-neon-green focus:border-neon-green outline-none"
               placeholder="0"
             />
-            <p className="text-[10px] text-carbon-500">Isi '0' kalau mau unlimited (Bahaya bos!).</p>
+            <p className="text-[10px] text-carbon-500">Isi &apos;0&apos; kalau mau unlimited (Bahaya bos!).</p>
           </div>
 
           <div className="bg-carbon-900/50 p-4 border border-dashed border-carbon-700 text-xs">
