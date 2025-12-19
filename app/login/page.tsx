@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -55,14 +57,30 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label className="block text-xs font-mono uppercase mb-2 text-carbon-300">Password Rahasia</label>
-            <input
-              type="password"
-              name="password"
-              required
-              className="w-full bg-carbon-900 border-2 border-carbon-600 p-3 text-white focus:outline-none focus:border-neon-green font-mono"
-              placeholder="******"
-            />
+            <div className="flex justify-between items-center mb-2">
+              <label className="block text-xs font-mono uppercase text-carbon-300">Password Rahasia</label>
+            </div>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                required
+                className="w-full bg-carbon-900 border-2 border-carbon-600 p-3 pr-10 text-white focus:outline-none focus:border-neon-green font-mono"
+                placeholder="******"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+            <div className="text-right mt-1">
+              <Link href="/lupa-password" className="text-[10px] text-carbon-400 hover:text-neon-orange hover:underline">
+                Lupa password? Kebiasaan lo!
+              </Link>
+            </div>
           </div>
 
           {error && (
