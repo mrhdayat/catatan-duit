@@ -325,7 +325,7 @@ export default function DashboardClient({ transactions, userId, budget }: { tran
                 <Tooltip
                   contentStyle={{ backgroundColor: '#000', border: '1px solid #fff' }}
                   itemStyle={{ color: '#39ff14' }}
-                  formatter={(value: number) => `Rp ${value.toLocaleString("id-ID")}`}
+                  formatter={(value: number | undefined) => `Rp ${(value ?? 0).toLocaleString("id-ID")}`}
                 />
                 <Bar dataKey="value" fill="#333" barSize={20}>
                   {statsData.map((entry, index) => (
