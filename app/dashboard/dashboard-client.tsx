@@ -55,23 +55,55 @@ export default function DashboardClient({ transactions, userId, budget }: { tran
 
   // Gauge Calculation
   const budgetLimit = budget?.limit || 0;
-  // If Skeleton Mode: Show % of Essential Spending vs Total Spending (Efficiency?)
-  // If Normal Mode: Show % of Total Spending vs Budget (Usage)
   let gaugeValue = 0;
   let gaugeLabel = "";
   let gaugeSubtext = "";
+  let gaugeColor = "#e0e0e0";
+  let gaugeStatus = "";
 
   if (skeletonMode) {
-    // Ratio of Essentials. Higher is "Stricter".
-    // E.g. 500 essential / 1000 total = 50% skeleton ratio.
+    // Ratio of Essentials. Higher is "Better" (More efficient).
     gaugeValue = totalSpending > 0 ? Math.round((essentialSpending / totalSpending) * 100) : 0;
     gaugeLabel = `${gaugeValue}%`;
     gaugeSubtext = "RATIO PENGELUARAN PENTING";
+
+    if (gaugeValue >= 80) {
+      gaugeColor = "#39ff14"; // Green
+      gaugeStatus = "SUPER HEMAT";
+    } else if (gaugeValue >= 50) {
+      gaugeColor = "#ffff00"; // Yellow
+      gaugeStatus = "STANDAR AJA";
+    } else {
+      gaugeColor = "#ef4444"; // Red
+      gaugeStatus = "BOROS BANGET";
+    }
   } else {
-    // Budget Usage
-    gaugeValue = budgetLimit > 0 ? Math.round((totalSpending / budgetLimit) * 100) : 0;
-    gaugeLabel = `${gaugeValue}%`;
-    gaugeSubtext = `DARI BUDGET Rp ${budgetLimit.toLocaleString("id-ID")}`;
+    // Budget Usage. Lower is "Better".
+    if (budgetLimit > 0) {
+      gaugeValue = Math.round((totalSpending / budgetLimit) * 100);
+      gaugeLabel = `${gaugeValue}%`;
+      gaugeSubtext = `DARI BUDGET Rp ${budgetLimit.toLocaleString("id-ID")}`;
+
+      if (gaugeValue < 75) {
+        gaugeColor = "#39ff14"; // Green
+        gaugeStatus = "AMAN TERKENDALI";
+      } else if (gaugeValue < 90) {
+        gaugeColor = "#ffff00"; // Yellow
+        gaugeStatus = "MULAI WASPADA";
+      } else if (gaugeValue <= 100) {
+        gaugeColor = "#f97316"; // Orange
+        gaugeStatus = "HAMPIR JEBOL";
+      } else {
+        gaugeColor = "#ef4444"; // Red
+        gaugeStatus = "JEBOL BOS!!!";
+      }
+    } else {
+      gaugeValue = 0;
+      gaugeLabel = "∞";
+      gaugeSubtext = "NO BUDGET LIMIT";
+      gaugeColor = "#39ff14";
+      gaugeStatus = "SULTAN BEBAS";
+    }
   }
 
   // Stats Data for Chart (Group by Category)
@@ -270,7 +302,7 @@ export default function DashboardClient({ transactions, userId, budget }: { tran
               <div className="relative w-40 h-40">
                 <svg className="w-full h-full transform -rotate-90">
                   <circle cx="80" cy="80" r="70" stroke="#333" strokeWidth="12" fill="transparent" />
-                  <circle cx="80" cy="80" r="70" stroke={skeletonMode ? "#39ff14" : (gaugeValue > 100 ? "#ef4444" : "#e0e0e0")} strokeWidth="12" fill="transparent"
+                  <circle cx="80" cy="80" r="70" stroke={gaugeColor} strokeWidth="12" fill="transparent"
                     strokeDasharray={440}
                     strokeDashoffset={440 - (440 * Math.min(gaugeValue, 100) / 100)}
                     className="transition-all duration-1000 ease-out"
@@ -287,8 +319,8 @@ export default function DashboardClient({ transactions, userId, budget }: { tran
 
             <div className="text-center font-mono text-xs border-t border-carbon-700 pt-4">
               <p className="text-carbon-300 mb-1">{gaugeSubtext}</p>
-              <p className={skeletonMode ? "text-neon-green" : "text-white"}>
-                {skeletonMode ? "FOKUS KEBUTUHAN POKOK" : (gaugeValue > 100 ? "⚠️ WARNING: OVER BUDGET" : "STATUS: AMAN TERKENDALI")}
+              <p style={{ color: gaugeColor }} className="font-bold">
+                {gaugeStatus}
               </p>
             </div>
           </Card>

@@ -100,26 +100,41 @@ export async function deleteTransaction(formdata: FormData) {
 
 export async function updateTransaction(formData: FormData) {
   const id = formData.get("id") as string;
-  const description = formData.get("description") as string;
-  const amount = Number(formData.get("amount"));
-  const category = formData.get("category") as string;
-  const type = formData.get("type") as "DEBIT" | "CREDIT";
-  const essential = formData.get("essential") === "on";
+
+  // Construct update data dynamically
+  const data: Record<string, any> = {};
+
+  const description = formData.get("description");
+  if (description !== null) data.description = description;
+
+  const amount = formData.get("amount");
+  if (amount !== null) data.amount = Number(amount);
+
+  const category = formData.get("category");
+  if (category !== null) data.category = category;
+
+  const type = formData.get("type");
+  if (type !== null) data.type = type;
+
+  // Only update essential if explicit field is present (to avoid resetting on simple edit)
+  // Note: HTML forms don't send unchecked checkboxes. 
+  // We assume if 'essential_touched' or similar key isn't there, we might skip.
+  // But for now, let's only update if input is present. 
+  // Actually, our current Edit Form doesn't send essential at all, so we shouldn't touch it.
+  const essential = formData.get("essential");
+  if (essential !== null) {
+    data.essential = essential === "on";
+  }
 
   try {
     await prisma.transaction.update({
       where: { id },
-      data: {
-        description,
-        amount,
-        category,
-        type,
-        essential,
-      },
+      data,
     });
     revalidatePath("/dashboard");
     return { success: "Data berhasil di-update, makin rapi!" };
-  } catch {
+  } catch (e) {
+    console.error("Update Error:", e);
     return { error: "Gagal update, server nolak." };
   }
 }
