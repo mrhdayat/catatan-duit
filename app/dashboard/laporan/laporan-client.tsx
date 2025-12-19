@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { format, getMonth, getYear } from "date-fns";
+import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
