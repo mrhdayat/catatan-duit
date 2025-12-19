@@ -31,5 +31,12 @@ export default async function LaporanPage() {
 
   // Actually, let's keep it simple. If Next.js warns, we fix it.
 
-  return <LaporanClient transactions={transactions} />;
+  // Fix type mismatch and date serialization
+  const formattedTransactions = transactions.map(t => ({
+    ...t,
+    type: t.type as "DEBIT" | "CREDIT",
+    date: t.date.toISOString(),
+  }));
+
+  return <LaporanClient transactions={formattedTransactions} />;
 }
