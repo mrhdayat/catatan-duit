@@ -102,19 +102,19 @@ export async function updateTransaction(formData: FormData) {
   const id = formData.get("id") as string;
 
   // Construct update data dynamically
-  const data: Record<string, any> = {};
+  const data: Record<string, string | number | boolean> = {};
 
   const description = formData.get("description");
-  if (description !== null) data.description = description;
+  if (description !== null) data.description = description as string;
 
   const amount = formData.get("amount");
   if (amount !== null) data.amount = Number(amount);
 
   const category = formData.get("category");
-  if (category !== null) data.category = category;
+  if (category !== null) data.category = category as string;
 
   const type = formData.get("type");
-  if (type !== null) data.type = type;
+  if (type !== null) data.type = type as string;
 
   // Only update essential if explicit field is present (to avoid resetting on simple edit)
   // Note: HTML forms don't send unchecked checkboxes. 
