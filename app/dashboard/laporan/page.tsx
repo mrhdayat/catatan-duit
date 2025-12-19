@@ -32,7 +32,7 @@ export default async function LaporanPage() {
   // Actually, let's keep it simple. If Next.js warns, we fix it.
 
   // Fix type mismatch and date serialization
-  const formattedTransactions = transactions.map(t => ({
+  const formattedTransactions = transactions.map((t: any) => ({
     ...t,
     type: t.type as "DEBIT" | "CREDIT",
     date: t.date.toISOString(),
